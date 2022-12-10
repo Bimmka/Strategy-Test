@@ -10,11 +10,11 @@ namespace Features.Graph.Data
   public class GraphData : SerializedScriptableObject
   {
     [ValidateInput("ValidateVertexes", "$errorMessage", IncludeChildren = true)]
-    public Dictionary<string,VertexData> Vertexes;
+    public Dictionary<int,VertexData> Vertexes;
 
     private string errorMessage = "Error";
 
-    private bool ValidateVertexes(Dictionary<string,VertexData> vertexes)
+    private bool ValidateVertexes(Dictionary<int,VertexData> vertexes)
     {
       if (vertexes == null || vertexes.Count == 0)
         return true;
@@ -22,7 +22,7 @@ namespace Features.Graph.Data
       int count;
       
       
-      foreach (KeyValuePair<string,VertexData> vertex in vertexes)
+      foreach (KeyValuePair<int,VertexData> vertex in vertexes)
       {
         if (vertex.Key != vertex.Value.ID)
         {
@@ -47,9 +47,9 @@ namespace Features.Graph.Data
           }
 
           VertexData nextVertex = vertexes[vertex.Value.Edges[j].NextVertex];
-          if (nextVertex.Edges.Contains(new Edge(vertex.Key, 1)) == false)
+          if (nextVertex.Edges.Contains(new Edge(vertex.Key, vertex.Value.Edges[j].LineType)) == false)
           {
-            errorMessage = $"Vertex {nextVertex.ID} Does Not Have Edge To Vertex {vertex.Key} While Back Edge Exists";
+            errorMessage = $"Vertex {nextVertex.ID} Does Not Have Edge Or Color Difference To Vertex {vertex.Key} While Back Edge Exists";
             return false;
           }
         }

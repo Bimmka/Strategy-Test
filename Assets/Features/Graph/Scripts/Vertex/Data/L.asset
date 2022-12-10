@@ -12,14 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 654c2ab8eddb45cfb577f9792298969b, type: 3}
   m_Name: L
   m_EditorClassIdentifier: 
-  ID: L
+  ID: 6
   Edges:
-  - NextVertex: N
-    Weight: 1
-  - NextVertex: M
-    Weight: 1
-  - NextVertex: K
-    Weight: 1
-  - NextVertex: D
-    Weight: 1
-  LineTypes: 0100000002000000
+  - NextVertex: 2
+    LineType: 2
+  - NextVertex: 5
+    LineType: 1
+  - NextVertex: 7
+    LineType: 1
+  - NextVertex: 10
+    LineType: 2

@@ -1,19 +1,18 @@
 ﻿using System;
-using Sirenix.OdinInspector;
+using Features.Graph.Data;
 
 namespace Features.Graph.Scripts.Vertex.Data
 {
   [Serializable]
   public struct Edge
   {
-    public string NextVertex;
-    [ReadOnly]
-    public int Weight;
+    public int NextVertex;
+    public GraphLineType LineType;
 
-    public Edge(string nextVertex, int weight)
+    public Edge(int nextVertex, GraphLineType lineType)
     {
       NextVertex = nextVertex;
-      Weight = weight;
+      LineType = lineType;
     }
   }
 }

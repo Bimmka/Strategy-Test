@@ -18,18 +18,18 @@ MonoBehaviour:
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: 78b402a9188a61248be8048acf586b71, type: 2}
     - {fileID: 11400000, guid: 25dd5447073118442b0fd0698d92d5b8, type: 2}
-    - {fileID: 11400000, guid: 858e1e4a04ca5ff41adb801f5a505c0b, type: 2}
-    - {fileID: 11400000, guid: 04b3d3d8b200c1e4391cab309584c813, type: 2}
-    - {fileID: 11400000, guid: b7f0d38ac2ba0b94da38b9219b8140f6, type: 2}
-    - {fileID: 11400000, guid: f63b37e3f604df84b9f34767c007b5fe, type: 2}
-    - {fileID: 11400000, guid: 46c0d9f0691e1d44fba6f5f3e33254f3, type: 2}
-    - {fileID: 11400000, guid: 1305f33c97e45644592e59fb1c1cb86d, type: 2}
-    - {fileID: 11400000, guid: de689e3ace2df6746a9457014da3c016, type: 2}
     - {fileID: 11400000, guid: f4f453c33617210449ecaa9c0bae67f0, type: 2}
-    - {fileID: 11400000, guid: d1c3da71f5eee9445b70c610b760723a, type: 2}
-    - {fileID: 11400000, guid: 5f8d4507ada69c94cbb10458188adcd7, type: 2}
+    - {fileID: 11400000, guid: 858e1e4a04ca5ff41adb801f5a505c0b, type: 2}
+    - {fileID: 11400000, guid: 1305f33c97e45644592e59fb1c1cb86d, type: 2}
     - {fileID: 11400000, guid: ded9effe7a618b048bdb17911aa3757c, type: 2}
+    - {fileID: 11400000, guid: d1c3da71f5eee9445b70c610b760723a, type: 2}
+    - {fileID: 11400000, guid: 04b3d3d8b200c1e4391cab309584c813, type: 2}
+    - {fileID: 11400000, guid: de689e3ace2df6746a9457014da3c016, type: 2}
     - {fileID: 11400000, guid: c9efbacda6737454eac3a0c769f866f5, type: 2}
+    - {fileID: 11400000, guid: 5f8d4507ada69c94cbb10458188adcd7, type: 2}
+    - {fileID: 11400000, guid: b7f0d38ac2ba0b94da38b9219b8140f6, type: 2}
+    - {fileID: 11400000, guid: 46c0d9f0691e1d44fba6f5f3e33254f3, type: 2}
+    - {fileID: 11400000, guid: f63b37e3f604df84b9f34767c007b5fe, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -37,11 +37,11 @@ MonoBehaviour:
     SerializationNodes:
     - Name: Vertexes
       Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[Features.Graph.Scripts.Vertex.Data.VertexData,
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[Features.Graph.Scripts.Vertex.Data.VertexData,
         Assembly-CSharp]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
+      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.Int32,
         mscorlib]], mscorlib
     - Name: 
       Entry: 8
@@ -53,8 +53,8 @@ MonoBehaviour:
       Entry: 7
       Data: 
     - Name: $k
-      Entry: 1
-      Data: A
+      Entry: 3
+      Data: 0
     - Name: $v
       Entry: 10
       Data: 0
@@ -65,8 +65,8 @@ MonoBehaviour:
       Entry: 7
       Data: 
     - Name: $k
-      Entry: 1
-      Data: B
+      Entry: 3
+      Data: 1
     - Name: $v
       Entry: 10
       Data: 1
@@ -77,8 +77,8 @@ MonoBehaviour:
       Entry: 7
       Data: 
     - Name: $k
-      Entry: 1
-      Data: C
+      Entry: 3
+      Data: 2
     - Name: $v
       Entry: 10
       Data: 2
@@ -89,8 +89,8 @@ MonoBehaviour:
       Entry: 7
       Data: 
     - Name: $k
-      Entry: 1
-      Data: D
+      Entry: 3
+      Data: 3
     - Name: $v
       Entry: 10
       Data: 3
@@ -101,8 +101,8 @@ MonoBehaviour:
       Entry: 7
       Data: 
     - Name: $k
-      Entry: 1
-      Data: E
+      Entry: 3
+      Data: 4
     - Name: $v
       Entry: 10
       Data: 4
@@ -113,8 +113,8 @@ MonoBehaviour:
       Entry: 7
       Data: 
     - Name: $k
-      Entry: 1
-      Data: F
+      Entry: 3
+      Data: 5
     - Name: $v
       Entry: 10
       Data: 5
@@ -125,8 +125,8 @@ MonoBehaviour:
       Entry: 7
       Data: 
     - Name: $k
-      Entry: 1
-      Data: G
+      Entry: 3
+      Data: 6
     - Name: $v
       Entry: 10
       Data: 6
@@ -137,8 +137,8 @@ MonoBehaviour:
       Entry: 7
       Data: 
     - Name: $k
-      Entry: 1
-      Data: H
+      Entry: 3
+      Data: 7
     - Name: $v
       Entry: 10
       Data: 7
@@ -149,8 +149,8 @@ MonoBehaviour:
       Entry: 7
       Data: 
     - Name: $k
-      Entry: 1
-      Data: J
+      Entry: 3
+      Data: 8
     - Name: $v
       Entry: 10
       Data: 8
@@ -161,8 +161,8 @@ MonoBehaviour:
       Entry: 7
       Data: 
     - Name: $k
-      Entry: 1
-      Data: K
+      Entry: 3
+      Data: 9
     - Name: $v
       Entry: 10
       Data: 9
@@ -173,8 +173,8 @@ MonoBehaviour:
       Entry: 7
       Data: 
     - Name: $k
-      Entry: 1
-      Data: L
+      Entry: 3
+      Data: 10
     - Name: $v
       Entry: 10
       Data: 10
@@ -185,8 +185,8 @@ MonoBehaviour:
       Entry: 7
       Data: 
     - Name: $k
-      Entry: 1
-      Data: M
+      Entry: 3
+      Data: 11
     - Name: $v
       Entry: 10
       Data: 11
@@ -197,8 +197,8 @@ MonoBehaviour:
       Entry: 7
       Data: 
     - Name: $k
-      Entry: 1
-      Data: N
+      Entry: 3
+      Data: 12
     - Name: $v
       Entry: 10
       Data: 12
@@ -209,8 +209,8 @@ MonoBehaviour:
       Entry: 7
       Data: 
     - Name: $k
-      Entry: 1
-      Data: O
+      Entry: 3
+      Data: 13
     - Name: $v
       Entry: 10
       Data: 13

@@ -10,20 +10,12 @@ namespace Features.Graph.Scripts.Vertex.Data
   [CreateAssetMenu(fileName = "VertexData", menuName = "StaticData/Graph/Create Vertex", order = 52)]
   public class VertexData : ScriptableObject
   {
-    [ValidateInput("ValidateID", "ID Is Null Or Empty")]
-    public string ID;
+    public int ID;
     [ValidateInput("ValidateVertex", "$errorMessage", IncludeChildren = true)]
     public Edge[] Edges;
-    [ValueDropdown("Lines", IsUniqueList = true)]
-    public GraphLineType[] LineTypes;
-    
+
     private string errorMessage = "Error";
 
-    private bool ValidateID(string id)
-    {
-      return string.IsNullOrEmpty(id) == false;
-    }
-    
     private bool ValidateVertex(Edge[] edges)
     {
       if (edges == null || edges.Length == 0)
@@ -32,7 +24,7 @@ namespace Features.Graph.Scripts.Vertex.Data
       int count;
       for (int i = 0; i < edges.Length; i++)
       {
-        edges[i] = new Edge(edges[i].NextVertex, 1);
+        edges[i] = new Edge(edges[i].NextVertex, edges[i].LineType);
         if (edges[i].NextVertex == ID)
         {
           errorMessage = $"Contains Circle To This Vertex In Edge {i}";

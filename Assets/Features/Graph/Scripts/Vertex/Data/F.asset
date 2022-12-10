@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 654c2ab8eddb45cfb577f9792298969b, type: 3}
   m_Name: F
   m_EditorClassIdentifier: 
-  ID: F
+  ID: 13
   Edges:
-  - NextVertex: G
-    Weight: 1
-  - NextVertex: E
-    Weight: 1
-  - NextVertex: J
-    Weight: 1
-  LineTypes: 0000000003000000
+  - NextVertex: 8
+    LineType: 3
+  - NextVertex: 11
+    LineType: 0
+  - NextVertex: 12
+    LineType: 3
