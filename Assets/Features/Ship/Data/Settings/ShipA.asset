@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShipID: A
   MaxHealth: 100
-  MaxShield: 8
+  MaxShield: 80
   ShieldRegenPerSecond: 1
   WeaponsCount: 2
   ModulesCount: 2

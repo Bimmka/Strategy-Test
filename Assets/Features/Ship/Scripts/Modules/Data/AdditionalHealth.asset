@@ -9,13 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e8594c0cdf04ebb90e2d06a4f46c52b, type: 3}
-  m_Name: ShipB
+  m_Script: {fileID: 11500000, guid: b429bc043b714e5aa7292338a862953f, type: 3}
+  m_Name: AdditionalHealth
   m_EditorClassIdentifier: 
-  ShipID: B
-  MaxHealth: 60
-  MaxShield: 120
-  ShieldRegenPerSecond: 1
-  WeaponsCount: 2
-  ModulesCount: 3
-  View: {fileID: 0}
+  Type: 0
+  Value: 50
