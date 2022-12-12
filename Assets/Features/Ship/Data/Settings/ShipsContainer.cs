@@ -7,7 +7,7 @@ namespace Features.Ship.Data.Settings
   [CreateAssetMenu(fileName = "ShipsContainer", menuName = "StaticData/Ship/Settings/Create Ships Container", order = 52)]
   public class ShipsContainer : SerializedScriptableObject
   {
-    [ValidateInput("ValidateDictionaryKeys", "Keys Not Dictionary Does Not Equal Ship Key", IncludeChildren = true)]
+    [ValidateInput("ValidateDictionaryKeys", "Dictionary Keys Does Not Equal Ship Key", IncludeChildren = true)]
     public Dictionary<ShipType, ShipSettings> Ships;
 
     private bool ValidateDictionaryKeys(Dictionary<ShipType, ShipSettings> ships)

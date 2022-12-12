@@ -79,3 +79,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shipSpawnParent: {fileID: 0}
   shipPrefab: {fileID: 3479156319169325008, guid: 74b115e9e11644947981383af39307fd, type: 3}
+  bulletSpawnParent: {fileID: 0}
+  bulletsContainer: {fileID: 11400000, guid: 205f7194aa6b27c4d903fbd1098deb51, type: 2}

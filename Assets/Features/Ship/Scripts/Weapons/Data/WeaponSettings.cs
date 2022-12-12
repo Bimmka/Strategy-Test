@@ -6,7 +6,7 @@ namespace Features.Ship.Scripts.Weapons.Data
   public class WeaponSettings : ScriptableObject
   {
     public WeaponType Type;
-    public float Damage;
+    public int Damage;
     public float ShootCooldown;
     public GameObject View;
   }

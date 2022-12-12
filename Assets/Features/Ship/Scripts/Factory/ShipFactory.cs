@@ -1,4 +1,6 @@
-﻿using Features.Services.Assets;
+﻿using System;
+using Features.Bullet.Scripts.Spawner;
+using Features.Services.Assets;
 using Features.Services.StaticData;
 using Features.Ship.Data.InputBindings;
 using Features.Ship.Data.Settings;
@@ -14,6 +16,7 @@ using Features.Ship.Scripts.Rotate.Scripts;
 using Features.Ship.Scripts.Weapons.Container;
 using Features.Ship.Scripts.Weapons.Data;
 using Features.Ship.Scripts.Weapons.Elements;
+using Features.Ship.Scripts.Weapons.Marker;
 using UnityEngine;
 
 namespace Features.Ship.Scripts.Factory
@@ -22,31 +25,33 @@ namespace Features.Ship.Scripts.Factory
   {
     private readonly IAssetProvider assetProvider;
     private readonly IStaticDataService staticDataService;
+    private readonly BulletSpawner bulletSpawner;
 
-    public ShipFactory(IAssetProvider assetProvider, IStaticDataService staticDataService)
+    public ShipFactory(IAssetProvider assetProvider, IStaticDataService staticDataService, BulletSpawner bulletSpawner)
     {
       this.assetProvider = assetProvider;
       this.staticDataService = staticDataService;
+      this.bulletSpawner = bulletSpawner;
     }
 
-    public ShipPresenter Create(ShipType shipType, WeaponType[] weaponTypes, ModuleType[] moduleTypes,
-      PlayerType playerType, Transform parent, ShipPresenter prefab)
+    public ShipPresenter Create(ShipType shipType, WeaponType[] weaponTypes, ModuleType[] moduleTypes, PlayerType playerType,
+      Transform parent, ShipPresenter prefab, Vector3 at)
     {
       ShipSettings shipSettings = staticDataService.ForShip(shipType);
-      ShipPresenter spawnedShip = Presenter(prefab, parent);
+      ShipPresenter spawnedShip = Presenter(prefab, at, parent);
       ShipView view = View(shipSettings.View, spawnedShip.transform);
       ShipInput input = Input(playerType);
       ShipRotate rotate = Rotate(spawnedShip.transform, shipSettings.RotateSettings);
       ShipMove move = Move(spawnedShip.transform, shipSettings.MoveSettings, rotate, spawnedShip.GetComponent<CharacterController>());
-      ShipWeapons weapons = Weapons(weaponTypes);
+      ShipWeapons weapons = Weapons(weaponTypes, playerType, view.FirePointMarkers, bulletSpawner);
       ShipModules modules = Modules(moduleTypes);
-      ShipModel model = ShipModel(input, move, weapons, modules);
+      ShipModel model = ShipModel(input, move, weapons, modules, playerType);
       spawnedShip.Construct(view, model);
       return spawnedShip;
     }
 
-    private ShipPresenter Presenter(ShipPresenter prefab, Transform parent) => 
-      assetProvider.Instantiate(prefab, parent);
+    private ShipPresenter Presenter(ShipPresenter prefab, Vector3 at, Transform parent) => 
+      assetProvider.Instantiate(prefab, at, Quaternion.identity, parent);
 
     private ShipView View(ShipView view, Transform shipPresenter) => 
       assetProvider.Instantiate(view, shipPresenter);
@@ -63,21 +68,32 @@ namespace Features.Ship.Scripts.Factory
     private ShipMove Move(Transform ship, ShipMoveSettings moveSettings, ShipRotate rotate, CharacterController shipController) => 
       new ShipMove(ship, moveSettings, rotate, shipController);
 
-    private ShipWeapons Weapons(WeaponType[] weaponTypes)
+    private ShipWeapons Weapons(WeaponType[] weaponTypes, PlayerType playerType, ShipFirePointMarker[] markers, BulletSpawner bulletSpawner)
     {
       Weapon[] weapons = new Weapon[weaponTypes.Length];
 
       for (int i = 0; i < weaponTypes.Length; i++)
       {
-        weapons[i] = Weapon(staticDataService.ForWeapon(weaponTypes[i]));
+        weapons[i] = Weapon(staticDataService.ForWeapon(weaponTypes[i]), playerType, markers[i].transform, bulletSpawner);
       }
       
       return new ShipWeapons(weapons);
     }
 
-    private Weapon Weapon(WeaponSettings weaponSettings)
+    private Weapon Weapon(WeaponSettings weaponSettings, PlayerType playerType, Transform firePoint, BulletSpawner bulletSpawner)
     {
-      return new Weapon(weaponSettings);
+      switch (weaponSettings.Type)
+      {
+        case WeaponType.Gun:
+          return new Gun(weaponSettings, playerType, firePoint, bulletSpawner);
+        case WeaponType.RocketLauncher:
+          return new RocketLauncher(weaponSettings, playerType, firePoint, bulletSpawner);
+        case WeaponType.LaserLauncher:
+          return new LaserLauncher(weaponSettings, playerType, firePoint, bulletSpawner);
+        default:
+          throw new ArgumentOutOfRangeException();
+      }
+      
     }
 
     private ShipModules Modules(ModuleType[] moduleTypes)
@@ -97,7 +113,7 @@ namespace Features.Ship.Scripts.Factory
       return new Module();
     }
 
-    private ShipModel ShipModel(ShipInput input, ShipMove move, ShipWeapons weapons, ShipModules modules) => 
-      new ShipModel(input, move, weapons, modules);
+    private ShipModel ShipModel(ShipInput input, ShipMove move, ShipWeapons weapons, ShipModules modules, PlayerType playerType) => 
+      new ShipModel(input, move, weapons, modules, playerType);
   }
 }

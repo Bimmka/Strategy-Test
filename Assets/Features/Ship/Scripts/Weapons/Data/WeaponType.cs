@@ -3,7 +3,7 @@
   public enum WeaponType
   {
     Gun,
-    Rocket,
-    Laser
+    RocketLauncher,
+    LaserLauncher
   }
 }

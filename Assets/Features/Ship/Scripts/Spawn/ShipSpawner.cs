@@ -21,7 +21,7 @@ namespace Features.Ship.Scripts.Spawn
       this.shipSpawnParent = shipSpawnParent;
     }
 
-    public ShipPresenter Create(ShipType shipType, WeaponType[] weapons, ModuleType[] modules, PlayerType playerType) => 
-      factory.Create(shipType, weapons, modules, playerType, shipSpawnParent, shipPresenterPrefab);
+    public ShipPresenter Create(ShipType shipType, WeaponType[] weapons, ModuleType[] modules, PlayerType playerType, Vector3 at) => 
+      factory.Create(shipType, weapons, modules, playerType, shipSpawnParent, shipPresenterPrefab, at);
   }
 }

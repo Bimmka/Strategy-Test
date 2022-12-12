@@ -1,4 +1,5 @@
-﻿using Features.Ship.Scripts.Input.Scripts;
+﻿using Features.Ship.Data.InputBindings;
+using Features.Ship.Scripts.Input.Scripts;
 using Features.Ship.Scripts.Modules.Scripts.Container;
 using Features.Ship.Scripts.Move.Scripts;
 using Features.Ship.Scripts.Weapons.Container;
@@ -12,13 +13,16 @@ namespace Features.Ship.Scripts.Base
     private readonly ShipMove move;
     private readonly ShipWeapons weapons;
     private readonly ShipModules modules;
+    
+    public PlayerType PlayerType { get; private set; }
 
-    public ShipModel(ShipInput input, ShipMove move, ShipWeapons weapons, ShipModules modules)
+    public ShipModel(ShipInput input, ShipMove move, ShipWeapons weapons, ShipModules modules, PlayerType playerType)
     {
       this.input = input;
       this.move = move;
       this.weapons = weapons;
       this.modules = modules;
+      PlayerType = playerType;
     }
     
     public void Tick(float deltaTime)

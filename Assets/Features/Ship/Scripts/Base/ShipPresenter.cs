@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Features.Ship.Data.InputBindings;
+using UnityEngine;
 
 namespace Features.Ship.Scripts.Base
 {
@@ -6,6 +7,8 @@ namespace Features.Ship.Scripts.Base
   {
     private ShipView view;
     private ShipModel model;
+
+    public PlayerType PlayerType => model.PlayerType;
 
     public void Construct(ShipView shipView, ShipModel shipModel)
     {
@@ -16,6 +19,11 @@ namespace Features.Ship.Scripts.Base
     private void Update()
     {
       model.Tick(Time.deltaTime);
+    }
+
+    public void TakeDamage(in int damage)
+    {
+      
     }
   }
 }

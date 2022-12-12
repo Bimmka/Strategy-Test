@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffc1f439181244609086b0075128fd8c, type: 3}
-  m_Name: RocketSettings
+  m_Script: {fileID: 11500000, guid: a512442541a043538dd18d8de37b673e, type: 3}
+  m_Name: BulletSettings
   m_EditorClassIdentifier: 
-  Type: 1
-  Damage: 4
-  ShootCooldown: 2
-  View: {fileID: 0}
+  Type: 0
+  MoveSpeed: 9
+  BulletView: {fileID: 7160308429975420812, guid: 4bf3179b1f2616f4d9b48b82b382523d, type: 3}

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ffc1f439181244609086b0075128fd8c, type: 3}
-  m_Name: LaserSettings
+  m_Name: RocketLauncherSettings
   m_EditorClassIdentifier: 
-  Type: 2
-  Damage: 20
-  ShootCooldown: 5
+  Type: 1
+  Damage: 4
+  ShootCooldown: 2
   View: {fileID: 0}

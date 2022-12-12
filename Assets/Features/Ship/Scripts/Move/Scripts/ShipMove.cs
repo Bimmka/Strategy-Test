@@ -23,7 +23,7 @@ namespace Features.Ship.Scripts.Move.Scripts
     public void Move(Vector2 direction, float deltaTime)
     {
       Vector3 moveDirection = MoveDirection(direction);
-      if (ship.up.IsEqualMoveDirection(moveDirection) == false)
+      if (ship.right.IsEqualMoveDirection(moveDirection) == false)
         rotate.Rotate(direction);
 
       shipController.Move(moveDirection * (moveData.MoveSpeed * deltaTime));
