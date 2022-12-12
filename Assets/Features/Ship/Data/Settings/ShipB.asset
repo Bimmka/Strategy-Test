@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e8594c0cdf04ebb90e2d06a4f46c52b, type: 3}
   m_Name: ShipB
   m_EditorClassIdentifier: 
-  ShipID: B
+  Type: 1
   MaxHealth: 60
   MaxShield: 120
   ShieldRegenPerSecond: 1
   WeaponsCount: 2
   ModulesCount: 3
-  View: {fileID: 0}
+  MoveSettings: {fileID: 11400000, guid: ddae3a7271e5d9443974fae30f1e57d4, type: 2}
+  RotateSettings: {fileID: 11400000, guid: 3b16043fdb576e94dbadbc9d20b5a53f, type: 2}
+  View: {fileID: -7919670474879125437, guid: e99b49436876d3747a2caa84c37d3ea8, type: 3}

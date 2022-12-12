@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b429bc043b714e5aa7292338a862953f, type: 3}
   m_Name: AdditionalShield
   m_EditorClassIdentifier: 
-  Type: 0
+  Type: 1
   Value: 50
+  View: {fileID: 0}

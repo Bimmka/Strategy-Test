@@ -13,9 +13,10 @@ namespace Features.Ship.Scripts.Rotate.Scripts
       this.ship = ship;
       this.rotateData = rotateData;
     }
-    public void Rotate(Vector3 moveDirection)
+    public void Rotate(Vector2 moveDirection)
     {
-      Quaternion rotation = Quaternion.LookRotation(moveDirection);
+      float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
+      Quaternion rotation = Quaternion.Euler(0,0,angle);
       Quaternion lerpedRotation = Quaternion.Slerp(ship.rotation, rotation,  rotateData.LerpRotate);
       ship.rotation = lerpedRotation;
     }

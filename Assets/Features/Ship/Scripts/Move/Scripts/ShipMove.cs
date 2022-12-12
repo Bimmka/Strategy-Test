@@ -7,40 +7,38 @@ namespace Features.Ship.Scripts.Move.Scripts
 {
   public class ShipMove
   {
-    private readonly Transform heroTransform;
+    private readonly Transform ship;
     private readonly ShipMoveSettings moveData;
-    private readonly Transform camera;
     private readonly ShipRotate rotate;
-    private readonly CharacterController heroController;
+    private readonly CharacterController shipController;
 
-    public ShipMove(Transform heroTransform, ShipMoveSettings moveData, Transform camera, ShipRotate rotate, CharacterController heroController)
+    public ShipMove(Transform ship, ShipMoveSettings moveData, ShipRotate rotate, CharacterController shipController)
     {
-      this.heroTransform = heroTransform;
+      this.ship = ship;
       this.moveData = moveData;
-      this.camera = camera;
       this.rotate = rotate;
-      this.heroController = heroController;
+      this.shipController = shipController;
     }
 
     public void Move(Vector2 direction, float deltaTime)
     {
       Vector3 moveDirection = MoveDirection(direction);
-      if (heroTransform.forward.IsEqualMoveDirection(moveDirection) == false)
-        rotate.Rotate(moveDirection);
+      if (ship.up.IsEqualMoveDirection(moveDirection) == false)
+        rotate.Rotate(direction);
 
-      heroController.Move(moveDirection * (moveData.MoveSpeed * deltaTime));
+      shipController.Move(moveDirection * (moveData.MoveSpeed * deltaTime));
     }
 
     private Vector3 MoveDirection(Vector2 inputDirection)
     {
       Vector3 worldMoveVector = Vector3.zero;
       if (inputDirection.x != 0)
-        worldMoveVector += camera.transform.right * inputDirection.x;
+        worldMoveVector.x = inputDirection.x;
 
       if (inputDirection.y != 0)
-        worldMoveVector += camera.transform.forward * inputDirection.y;
+        worldMoveVector.y = inputDirection.y;
 
-      worldMoveVector.y = 0;
+      worldMoveVector.z = 0;
       return worldMoveVector.normalized;
     }
   }
