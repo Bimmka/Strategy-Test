@@ -1,10 +1,13 @@
 ﻿using System;
 using Features.Bullet.Scripts.Spawner;
+using Features.CustomCoroutine;
 using Features.Services.Assets;
 using Features.Services.StaticData;
 using Features.Ship.Data.InputBindings;
 using Features.Ship.Data.Settings;
 using Features.Ship.Scripts.Base;
+using Features.Ship.Scripts.Damage;
+using Features.Ship.Scripts.Health;
 using Features.Ship.Scripts.Input.Scripts;
 using Features.Ship.Scripts.Modules.Data;
 using Features.Ship.Scripts.Modules.Scripts.Container;
@@ -13,6 +16,7 @@ using Features.Ship.Scripts.Move.Data;
 using Features.Ship.Scripts.Move.Scripts;
 using Features.Ship.Scripts.Rotate.Data;
 using Features.Ship.Scripts.Rotate.Scripts;
+using Features.Ship.Scripts.Shield;
 using Features.Ship.Scripts.Weapons.Container;
 using Features.Ship.Scripts.Weapons.Data;
 using Features.Ship.Scripts.Weapons.Elements;
@@ -45,7 +49,10 @@ namespace Features.Ship.Scripts.Factory
       ShipMove move = Move(spawnedShip.transform, shipSettings.MoveSettings, rotate, spawnedShip.GetComponent<CharacterController>());
       ShipWeapons weapons = Weapons(weaponTypes, playerType, view.FirePointMarkers, bulletSpawner);
       ShipModules modules = Modules(moduleTypes);
-      ShipModel model = ShipModel(input, move, weapons, modules, playerType);
+      ShipHealth health = ShipHealth(shipSettings.MaxHealth);
+      ShipShield shield = ShipShield(shipSettings.MaxShield, 1, shipSettings.ShieldRegenPerSecond);
+      ShipDamageReceiver damageReceiver = ShipDamageReceiver(health, shield);
+      ShipModel model = ShipModel(health, shield, damageReceiver, input, move, weapons, modules, playerType);
       spawnedShip.Construct(view, model);
       return spawnedShip;
     }
@@ -113,7 +120,17 @@ namespace Features.Ship.Scripts.Factory
       return new Module();
     }
 
-    private ShipModel ShipModel(ShipInput input, ShipMove move, ShipWeapons weapons, ShipModules modules, PlayerType playerType) => 
-      new ShipModel(input, move, weapons, modules, playerType);
+    private ShipHealth ShipHealth(int healthCount) => 
+      new ShipHealth(healthCount);
+    
+    private ShipShield ShipShield(int shieldCount, int reloadTime, int restoreValuePerSecond) => 
+      new ShipShield(shieldCount, reloadTime, restoreValuePerSecond);
+
+    private ShipDamageReceiver ShipDamageReceiver(ShipHealth health, ShipShield shield) => 
+      new ShipDamageReceiver(health, shield);
+
+    private ShipModel ShipModel(ShipHealth health, ShipShield shield, ShipDamageReceiver damageReceiver, ShipInput input, ShipMove move,
+      ShipWeapons weapons, ShipModules modules, PlayerType playerType) => 
+      new ShipModel(health, shield, damageReceiver, input, move, weapons, modules, playerType);
   }
 }

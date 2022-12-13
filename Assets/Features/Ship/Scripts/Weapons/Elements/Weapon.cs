@@ -1,6 +1,7 @@
 ﻿using Features.Bullet.Data;
 using Features.Bullet.Scripts.Element;
 using Features.Bullet.Scripts.Spawner;
+using Features.Reloader;
 using Features.Ship.Data.InputBindings;
 using Features.Ship.Scripts.Weapons.Data;
 using UnityEngine;
@@ -13,26 +14,22 @@ namespace Features.Ship.Scripts.Weapons.Elements
     private readonly PlayerType playerType;
     private readonly Transform firePoint;
     private readonly BulletSpawner bulletSpawner;
-    private float currentReloadTime;
+    private readonly ItemReloader reloader;
     public Weapon(WeaponSettings settings, PlayerType playerType, Transform firePoint, BulletSpawner bulletSpawner)
     {
       this.settings = settings;
       this.playerType = playerType;
       this.firePoint = firePoint;
       this.bulletSpawner = bulletSpawner;
-      currentReloadTime = 0;
+      reloader = new ItemReloader((int) settings.ShootCooldown);
+      reloader.TimeOut += Shoot;
     }
 
-    public void Tick(in float deltaTime)
-    {
-      currentReloadTime += deltaTime;
+    public void Cleanup() => 
+      reloader.TimeOut -= Shoot;
 
-      if (currentReloadTime >= settings.ShootCooldown)
-      {
-        currentReloadTime %= settings.ShootCooldown;
-        Shoot();
-      }
-    }
+    public void Tick(in float deltaTime) => 
+      reloader.Tick(deltaTime);
 
     protected abstract BulletType Type();
 

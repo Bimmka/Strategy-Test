@@ -1,4 +1,5 @@
-﻿using Features.Ship.Data.InputBindings;
+﻿using System;
+using Features.Ship.Data.InputBindings;
 using UnityEngine;
 
 namespace Features.Ship.Scripts.Base
@@ -16,14 +17,13 @@ namespace Features.Ship.Scripts.Base
       model = shipModel;
     }
 
-    private void Update()
-    {
-      model.Tick(Time.deltaTime);
-    }
+    private void OnDestroy() => 
+      model.Cleanup();
 
-    public void TakeDamage(in int damage)
-    {
-      
-    }
+    private void Update() => 
+      model.Tick(Time.deltaTime);
+
+    public void TakeDamage(int damage) => 
+      model.TakeDamage(damage);
   }
 }

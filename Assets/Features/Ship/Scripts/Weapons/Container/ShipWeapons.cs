@@ -18,5 +18,13 @@ namespace Features.Ship.Scripts.Weapons.Container
         weapons[i].Tick(deltaTime);
       }  
     }
+
+    public void Cleanup()
+    {
+      for (int i = 0; i < weapons.Length; i++)
+      {
+        weapons[i].Cleanup();
+      }
+    }
   }
 }
