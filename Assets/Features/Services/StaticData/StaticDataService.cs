@@ -1,7 +1,10 @@
-﻿using Features.Ship.Data.InputBindings;
+﻿using Features.Services.UI.Factory;
+using Features.Ship.Data.InputBindings;
 using Features.Ship.Data.Settings;
 using Features.Ship.Scripts.Modules.Data;
 using Features.Ship.Scripts.Weapons.Data;
+using Features.StaticData.Windows;
+using Features.UI.Windows.Data;
 
 namespace Features.Services.StaticData
 {
@@ -11,14 +14,16 @@ namespace Features.Services.StaticData
     private readonly WeaponSettingsContainer weaponsContainer;
     private readonly ModulesSettingsContainer modulesContainer;
     private readonly ShipControlBindingsContainer inputContainer;
+    private readonly WindowsContainer windowsContainer;
 
     public StaticDataService(ShipsContainer shipsContainer, WeaponSettingsContainer weaponsContainer, ModulesSettingsContainer modulesContainer,
-      ShipControlBindingsContainer inputContainer)
+      ShipControlBindingsContainer inputContainer, WindowsContainer windowsContainer)
     {
       this.shipsContainer = shipsContainer;
       this.weaponsContainer = weaponsContainer;
       this.modulesContainer = modulesContainer;
       this.inputContainer = inputContainer;
+      this.windowsContainer = windowsContainer;
     }
     
     public ShipSettings ForShip(ShipType shipType) => 
@@ -32,5 +37,8 @@ namespace Features.Services.StaticData
 
     public ShipControlBindings ForInput(PlayerType playerType) => 
       inputContainer.Bindings[playerType];
+
+    public WindowInstantiateData ForWindow(WindowId id) => 
+      windowsContainer.InstantiateData[id];
   }
 }

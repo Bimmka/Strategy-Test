@@ -3,9 +3,11 @@ using Features.Bullet.Scripts.Factory;
 using Features.Bullet.Scripts.Spawner;
 using Features.Level.Scripts.Flow;
 using Features.Services.Cleanup;
+using Features.Services.UI.Factory.BaseUI;
 using Features.Ship.Scripts.Base;
 using Features.Ship.Scripts.Factory;
 using Features.Ship.Scripts.Spawn;
+using Features.UI.Windows.Base;
 using UnityEngine;
 using Zenject;
 
@@ -21,6 +23,7 @@ namespace Features.Bootstrapp.Scripts
     public override void Start()
     {
       base.Start();
+      Container.Resolve<IUIFactory>();
       Container.Resolve<LevelFlow>().StartGame();
     }
 
@@ -32,6 +35,7 @@ namespace Features.Bootstrapp.Scripts
       BindBulletFactory();
       BindCleanupService();
       BindLevelFlow();
+      BindUIFactory();
     }
 
     private void BindShipSpawner() => 
@@ -51,5 +55,8 @@ namespace Features.Bootstrapp.Scripts
 
     private void BindLevelFlow() => 
       Container.Bind<LevelFlow>().ToSelf().FromNew().AsSingle();
+    
+    private void BindUIFactory() =>
+      Container.BindFactoryCustomInterface<BaseWindow, UIFactory, IUIFactory>().AsSingle();
   }
 }
