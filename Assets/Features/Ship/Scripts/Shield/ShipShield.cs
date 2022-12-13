@@ -5,17 +5,17 @@ namespace Features.Ship.Scripts.Shield
 {
   public class ShipShield
   {
-    private readonly int restoreValuePerSecond;
+    private readonly float restoreValuePerSecond;
     private readonly ItemReloader reloader;
-    private readonly int maxValue;
-    public int CurrentShield { get; private set; }
+    private readonly float maxValue;
+    public float CurrentShield { get; private set; }
 
-    public event Action<int> Changed;
+    public event Action<float> Changed;
 
-    public ShipShield(int startCount, int reloadTime, int restoreValuePerSecond)
+    public ShipShield(float startCount, float restoreValuePerSecond, float restoreTime)
     {
       this.restoreValuePerSecond = restoreValuePerSecond;
-      reloader = new ItemReloader(reloadTime);
+      reloader = new ItemReloader(restoreTime);
       reloader.TimeOut += OnReloadTimeOut;
       maxValue = startCount;
       CurrentShield = startCount;
@@ -30,7 +30,7 @@ namespace Features.Ship.Scripts.Shield
         reloader.Tick(deltaTime);
     }
 
-    public void DecreaseShield(int count)
+    public void DecreaseShield(float count)
     {
       CurrentShield -= count;
       if (CurrentShield <= 0) 

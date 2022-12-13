@@ -14,11 +14,11 @@ namespace Features.Ship.Scripts.Damage
       this.shield = shield;
     }
 
-    public void TakeDamage(int count)
+    public void TakeDamage(float count)
     {
       if (shield.CurrentShield > 0)
       {
-        int shieldCount = shield.CurrentShield;
+        float shieldCount = shield.CurrentShield;
         shield.DecreaseShield(count);
         count -= shieldCount;
       }

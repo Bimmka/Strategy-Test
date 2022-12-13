@@ -4,11 +4,11 @@ namespace Features.Reloader
 {
   public class ItemReloader
   {
-    private readonly int maxWaitTime;
+    private readonly float maxWaitTime;
     private float currentWaitTime;
     public event Action TimeOut;
 
-    public ItemReloader(int maxWaitTime)
+    public ItemReloader(float maxWaitTime)
     {
       this.maxWaitTime = maxWaitTime;
     }

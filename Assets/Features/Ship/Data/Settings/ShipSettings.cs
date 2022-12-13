@@ -11,7 +11,8 @@ namespace Features.Ship.Data.Settings
     public ShipType Type;
     public int MaxHealth;
     public int MaxShield;
-    public int ShieldRegenPerSecond;
+    public float ShieldRegenPerSecond;
+    public float ShieldRegenTime = 1f;
     public int WeaponsCount;
     public int ModulesCount;
     public ShipMoveSettings MoveSettings;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Features.Bullet.Scripts.Spawner;
 using Features.CustomCoroutine;
 using Features.Services.Assets;
@@ -6,6 +7,7 @@ using Features.Services.StaticData;
 using Features.Ship.Data.InputBindings;
 using Features.Ship.Data.Settings;
 using Features.Ship.Scripts.Base;
+using Features.Ship.Scripts.Characteristics;
 using Features.Ship.Scripts.Damage;
 using Features.Ship.Scripts.Health;
 using Features.Ship.Scripts.Input.Scripts;
@@ -43,14 +45,16 @@ namespace Features.Ship.Scripts.Factory
     {
       ShipSettings shipSettings = staticDataService.ForShip(shipType);
       ShipPresenter spawnedShip = Presenter(prefab, at, parent);
+      ShipCharacteristics characteristics = ShipCharacteristics(shipSettings, weaponTypes, moduleTypes);
       ShipView view = View(shipSettings.View, spawnedShip.transform);
       ShipInput input = Input(playerType);
       ShipRotate rotate = Rotate(spawnedShip.transform, shipSettings.RotateSettings);
       ShipMove move = Move(spawnedShip.transform, shipSettings.MoveSettings, rotate, spawnedShip.GetComponent<CharacterController>());
-      ShipWeapons weapons = Weapons(weaponTypes, playerType, view.FirePointMarkers, bulletSpawner);
-      ShipModules modules = Modules(moduleTypes);
-      ShipHealth health = ShipHealth(shipSettings.MaxHealth);
-      ShipShield shield = ShipShield(shipSettings.MaxShield, 1, shipSettings.ShieldRegenPerSecond);
+      ShipModules modules = Modules(characteristics.Modules);
+      characteristics = UpdateCharacteristicsByModules(characteristics, modules);
+      ShipWeapons weapons = Weapons(characteristics.Weapons, playerType, view.FirePointMarkers, bulletSpawner);
+      ShipHealth health = ShipHealth(characteristics.Health);
+      ShipShield shield = ShipShield(characteristics.Shield);
       ShipDamageReceiver damageReceiver = ShipDamageReceiver(health, shield);
       ShipModel model = ShipModel(health, shield, damageReceiver, input, move, weapons, modules, playerType);
       spawnedShip.Construct(view, model);
@@ -59,6 +63,28 @@ namespace Features.Ship.Scripts.Factory
 
     private ShipPresenter Presenter(ShipPresenter prefab, Vector3 at, Transform parent) => 
       assetProvider.Instantiate(prefab, at, Quaternion.identity, parent);
+
+    private ShipCharacteristics ShipCharacteristics(ShipSettings settings, WeaponType[] weaponTypes, ModuleType[] moduleTypes)
+    {
+      ShipCharacteristics characteristics = new ShipCharacteristics();
+      characteristics.InitializeHealth(settings.MaxHealth);
+      characteristics.InitializeShield(settings.MaxShield, settings.ShieldRegenPerSecond, settings.ShieldRegenTime);
+      WeaponSettings weaponSettings;
+      for (int i = 0; i < weaponTypes.Length; i++)
+      {
+        weaponSettings = staticDataService.ForWeapon(weaponTypes[i]);
+        characteristics.InitializeWeapon(weaponTypes[i], weaponSettings.Damage, weaponSettings.ShootCooldown);
+      }
+      
+      ModuleSettings moduleSettings;
+      for (int i = 0; i < moduleTypes.Length; i++)
+      {
+        moduleSettings = staticDataService.ForModule(moduleTypes[i]);
+        characteristics.InitializeModule(moduleTypes[i], moduleSettings.Value);
+      }
+
+      return characteristics;
+    }
 
     private ShipView View(ShipView view, Transform shipPresenter) => 
       assetProvider.Instantiate(view, shipPresenter);
@@ -75,13 +101,45 @@ namespace Features.Ship.Scripts.Factory
     private ShipMove Move(Transform ship, ShipMoveSettings moveSettings, ShipRotate rotate, CharacterController shipController) => 
       new ShipMove(ship, moveSettings, rotate, shipController);
 
-    private ShipWeapons Weapons(WeaponType[] weaponTypes, PlayerType playerType, ShipFirePointMarker[] markers, BulletSpawner bulletSpawner)
+    private ShipModules Modules(List<ModuleCharacteristics> moduleTypes)
     {
-      Weapon[] weapons = new Weapon[weaponTypes.Length];
+      Module[] modules = new Module[moduleTypes.Count];
 
-      for (int i = 0; i < weaponTypes.Length; i++)
+      for (int i = 0; i < moduleTypes.Count; i++)
       {
-        weapons[i] = Weapon(staticDataService.ForWeapon(weaponTypes[i]), playerType, markers[i].transform, bulletSpawner);
+        modules[i] = Module(moduleTypes[i]);
+      }
+      
+      return new ShipModules(modules);
+    }
+
+    private Module Module(ModuleCharacteristics characteristic)
+    {
+      switch (characteristic.Type)
+      {
+        case ModuleType.AddHealth:
+          return new AdditionalHealthModule(characteristic.Type, characteristic.Value);
+        case ModuleType.AddShield:
+          return new AdditionalShieldModule(characteristic.Type, characteristic.Value);
+        case ModuleType.WeaponReloadCooldown:
+          return new ReduceWeaponReloadModule(characteristic.Type, characteristic.Value);
+        case ModuleType.ShieldRestoreValue:
+          return new IncreaseShieldRestoreValueModule(characteristic.Type, characteristic.Value);
+        default:
+          throw new ArgumentOutOfRangeException();
+      }
+    }
+
+    private ShipCharacteristics UpdateCharacteristicsByModules(ShipCharacteristics characteristics, ShipModules modules) => 
+      modules.ApplyModules(characteristics);
+
+    private ShipWeapons Weapons(List<WeaponCharacteristics> weaponTypes, PlayerType playerType, ShipFirePointMarker[] markers, BulletSpawner bulletSpawner)
+    {
+      Weapon[] weapons = new Weapon[weaponTypes.Count];
+
+      for (int i = 0; i < weaponTypes.Count; i++)
+      {
+        weapons[i] = Weapon(staticDataService.ForWeapon(weaponTypes[i].Type), playerType, markers[i].transform, bulletSpawner);
       }
       
       return new ShipWeapons(weapons);
@@ -103,28 +161,10 @@ namespace Features.Ship.Scripts.Factory
       
     }
 
-    private ShipModules Modules(ModuleType[] moduleTypes)
-    {
-      Module[] modules = new Module[moduleTypes.Length];
-
-      for (int i = 0; i < moduleTypes.Length; i++)
-      {
-        modules[i] = Module(staticDataService.ForModule(moduleTypes[i]));
-      }
-      
-      return new ShipModules(modules);
-    }
-
-    private Module Module(ModuleSettings moduleSettings)
-    {
-      return new Module();
-    }
-
-    private ShipHealth ShipHealth(int healthCount) => 
-      new ShipHealth(healthCount);
-    
-    private ShipShield ShipShield(int shieldCount, int reloadTime, int restoreValuePerSecond) => 
-      new ShipShield(shieldCount, reloadTime, restoreValuePerSecond);
+    private ShipHealth ShipHealth(HealthCharacteristics healthCharacteristics) => 
+      new ShipHealth(healthCharacteristics.Max);
+    private ShipShield ShipShield(ShieldCharacteristics characteristics) => 
+      new ShipShield(characteristics.Max, characteristics.RestoreValue, characteristics.RestoreTime);
 
     private ShipDamageReceiver ShipDamageReceiver(ShipHealth health, ShipShield shield) => 
       new ShipDamageReceiver(health, shield);

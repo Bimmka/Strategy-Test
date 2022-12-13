@@ -4,17 +4,17 @@ namespace Features.Ship.Scripts.Health
 {
   public class ShipHealth
   {
-    public int CurrentHealth { get; private set; }
+    public float CurrentHealth { get; private set; }
 
-    public event Action<int> Changed; 
+    public event Action<float> Changed; 
     public event Action Dead; 
 
-    public ShipHealth(int startCount)
+    public ShipHealth(float startCount)
     {
       CurrentHealth = startCount;
     }
 
-    public void DecreaseHealth(int count)
+    public void DecreaseHealth(float count)
     {
       CurrentHealth -= count;
       if (CurrentHealth <= 0)
