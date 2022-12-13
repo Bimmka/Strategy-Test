@@ -1,5 +1,7 @@
 ﻿using Features.Ship.Data.InputBindings;
+using Features.Ship.Scripts.Characteristics;
 using Features.Ship.Scripts.Damage;
+using Features.Ship.Scripts.Disable;
 using Features.Ship.Scripts.Health;
 using Features.Ship.Scripts.Input.Scripts;
 using Features.Ship.Scripts.Modules.Scripts.Container;
@@ -19,11 +21,13 @@ namespace Features.Ship.Scripts.Base
     private readonly ShipMove move;
     private readonly ShipWeapons weapons;
     private readonly ShipModules modules;
-    
+    private readonly ShipCharacteristics characteristics;
+    private readonly ShipDestroyer shipDestroyer;
+
     public PlayerType PlayerType { get; private set; }
 
     public ShipModel(ShipHealth health, ShipShield shield, ShipDamageReceiver damageReceiver, ShipInput input, 
-      ShipMove move, ShipWeapons weapons, ShipModules modules, PlayerType playerType)
+      ShipMove move, ShipWeapons weapons, ShipModules modules, ShipCharacteristics characteristics, ShipDestroyer shipDestroyer, PlayerType playerType)
     {
       this.health = health;
       this.shield = shield;
@@ -33,6 +37,8 @@ namespace Features.Ship.Scripts.Base
       this.move = move;
       this.weapons = weapons;
       this.modules = modules;
+      this.characteristics = characteristics;
+      this.shipDestroyer = shipDestroyer;
       PlayerType = playerType;
     }
 
@@ -58,7 +64,7 @@ namespace Features.Ship.Scripts.Base
 
     private void OnDead()
     {
-      Debug.Log("Dead");  
+      shipDestroyer.Destroy();
     }
   }
 }

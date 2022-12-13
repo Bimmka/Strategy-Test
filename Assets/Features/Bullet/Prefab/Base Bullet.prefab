@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Rigidbody>k__BackingField: {fileID: 5889191302436162076}
+  collisionCollider: {fileID: -519801498330535681}
 --- !u!65 &-519801498330535681
 BoxCollider:
   m_ObjectHideFlags: 0

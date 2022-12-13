@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Features.Bullet.Scripts.Spawner;
-using Features.CustomCoroutine;
 using Features.Services.Assets;
 using Features.Services.StaticData;
 using Features.Ship.Data.InputBindings;
@@ -9,6 +8,7 @@ using Features.Ship.Data.Settings;
 using Features.Ship.Scripts.Base;
 using Features.Ship.Scripts.Characteristics;
 using Features.Ship.Scripts.Damage;
+using Features.Ship.Scripts.Disable;
 using Features.Ship.Scripts.Health;
 using Features.Ship.Scripts.Input.Scripts;
 using Features.Ship.Scripts.Modules.Data;
@@ -56,7 +56,8 @@ namespace Features.Ship.Scripts.Factory
       ShipHealth health = ShipHealth(characteristics.Health);
       ShipShield shield = ShipShield(characteristics.Shield);
       ShipDamageReceiver damageReceiver = ShipDamageReceiver(health, shield);
-      ShipModel model = ShipModel(health, shield, damageReceiver, input, move, weapons, modules, playerType);
+      ShipDestroyer destroyer = ShipDestroyer(spawnedShip);
+      ShipModel model = ShipModel(health, shield, damageReceiver, input, move, weapons, modules, characteristics, destroyer, playerType);
       spawnedShip.Construct(view, model);
       return spawnedShip;
     }
@@ -166,11 +167,14 @@ namespace Features.Ship.Scripts.Factory
     private ShipShield ShipShield(ShieldCharacteristics characteristics) => 
       new ShipShield(characteristics.Max, characteristics.RestoreValue, characteristics.RestoreTime);
 
+    private ShipDestroyer ShipDestroyer(ShipPresenter shipPresenter) => 
+      new ShipDestroyer(shipPresenter);
+
     private ShipDamageReceiver ShipDamageReceiver(ShipHealth health, ShipShield shield) => 
       new ShipDamageReceiver(health, shield);
 
     private ShipModel ShipModel(ShipHealth health, ShipShield shield, ShipDamageReceiver damageReceiver, ShipInput input, ShipMove move,
-      ShipWeapons weapons, ShipModules modules, PlayerType playerType) => 
-      new ShipModel(health, shield, damageReceiver, input, move, weapons, modules, playerType);
+      ShipWeapons weapons, ShipModules modules, ShipCharacteristics characteristics, ShipDestroyer destroyer, PlayerType playerType) => 
+      new ShipModel(health, shield, damageReceiver, input, move, weapons, modules, characteristics, destroyer, playerType);
   }
 }

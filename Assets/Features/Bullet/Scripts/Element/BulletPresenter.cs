@@ -11,6 +11,7 @@ namespace Features.Bullet.Scripts.Element
   public class BulletPresenter : MonoBehaviour
   {
     [field: SerializeField] public Rigidbody Rigidbody { get; private set; }
+    [SerializeField] private Collider collisionCollider;
     
     private BulletModel model;
     private bool isEnable;
@@ -47,12 +48,14 @@ namespace Features.Bullet.Scripts.Element
     {
       view.Show();
       isEnable = true;
+      collisionCollider.enabled = true;
     }
 
     public void Hide()
     {
       view.Hide();
       isEnable = false;
+      collisionCollider.enabled = false;
       StopAllCoroutines();
     }
 

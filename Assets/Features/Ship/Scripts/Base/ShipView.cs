@@ -6,5 +6,10 @@ namespace Features.Ship.Scripts.Base
   public class ShipView : MonoBehaviour
   {
     [field: SerializeField] public ShipFirePointMarker[] FirePointMarkers { get; private set; }
+
+    public void Disable()
+    {
+      
+    }
   }
 }
