@@ -1,6 +1,8 @@
 using Features.Constants;
 using Features.GameStates.States.Interfaces;
 using Features.SceneLoading.Scripts;
+using Features.Services.UI.Factory;
+using Features.Services.UI.Windows;
 using Zenject;
 
 namespace Features.GameStates.States

@@ -3,18 +3,17 @@ using Features.Ship.Scripts.Health;
 using Features.Ship.Scripts.Shield;
 using UnityEngine;
 
-namespace Features.Ship.Scripts.Displaying
+namespace Features.UI.Windows.HUD.Scripts
 {
   public class ShipCharacteristicsDisplayer : MonoBehaviour, ICleanup
   {
     [SerializeField] private ValueDisplayer shieldDisplayer;
     [SerializeField] private ValueDisplayer healthDisplayer;
 
-    public void Construct(ShipShield shield, ShipHealth health, ICleanupService cleanupService)
+    public void Construct(ShipShield shield, ShipHealth health)
     {
       shieldDisplayer.Construct(shield);
       healthDisplayer.Construct(health);
-      cleanupService.Register(this);
     }
 
     public void Cleanup()

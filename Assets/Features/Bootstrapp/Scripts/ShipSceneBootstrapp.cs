@@ -2,6 +2,7 @@
 using Features.Bullet.Scripts.Factory;
 using Features.Bullet.Scripts.Spawner;
 using Features.Level.Scripts.Flow;
+using Features.Level.Scripts.Observer;
 using Features.Services.Cleanup;
 using Features.Services.UI.Factory.BaseUI;
 using Features.Ship.Scripts.Base;
@@ -19,12 +20,13 @@ namespace Features.Bootstrapp.Scripts
     [SerializeField] private ShipPresenter shipPrefab;
     [SerializeField] private Transform bulletSpawnParent;
     [SerializeField] private BulletsContainer bulletsContainer;
+    [SerializeField] private LevelFlowObserver levelFlowObserver;
 
     public override void Start()
     {
       base.Start();
       Container.Resolve<IUIFactory>();
-      Container.Resolve<LevelFlow>().StartGame();
+      Container.Resolve<LevelFlowObserver>();
     }
 
     public override void InstallBindings()
@@ -35,6 +37,7 @@ namespace Features.Bootstrapp.Scripts
       BindBulletFactory();
       BindCleanupService();
       BindLevelFlow();
+      BindLevelFlowObserver();
       BindUIFactory();
     }
 
@@ -55,6 +58,9 @@ namespace Features.Bootstrapp.Scripts
 
     private void BindLevelFlow() => 
       Container.Bind<LevelFlow>().ToSelf().FromNew().AsSingle();
+    
+    private void BindLevelFlowObserver() => 
+      Container.Bind<LevelFlowObserver>().ToSelf().FromComponentInNewPrefab(levelFlowObserver).AsSingle();
     
     private void BindUIFactory() =>
       Container.BindFactoryCustomInterface<BaseWindow, UIFactory, IUIFactory>().AsSingle();

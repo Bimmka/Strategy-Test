@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Features.Ship.Scripts.Displaying
+namespace Features.UI.Windows.HUD.Scripts
 {
   public class ValueDisplayer : MonoBehaviour
   {

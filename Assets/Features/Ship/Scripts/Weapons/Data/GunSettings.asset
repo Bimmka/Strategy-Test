@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: GunSettings
   m_EditorClassIdentifier: 
   Type: 0
-  Damage: 5
+  Damage: 200
   ShootCooldown: 3
-  View: {fileID: 0}

@@ -1,5 +1,5 @@
 ﻿using System;
-using Features.Ship.Scripts.Displaying;
+using Features.UI.Windows.HUD.Scripts;
 
 namespace Features.Ship.Scripts.Health
 {

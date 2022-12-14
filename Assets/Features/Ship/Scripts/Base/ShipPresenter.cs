@@ -31,8 +31,11 @@ namespace Features.Ship.Scripts.Base
         model.Tick(Time.deltaTime);
     }
 
-    public void TakeDamage(int damage) => 
-      model.TakeDamage(damage);
+    public void TakeDamage(int damage)
+    {
+      if (isEnable)
+        model.TakeDamage(damage);
+    }
 
     public void Disable()
     {

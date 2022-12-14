@@ -18,6 +18,7 @@ MonoBehaviour:
     ReferencedUnityObjects:
     - {fileID: 3734460225679814582, guid: 0e8b6fac8c7c12541bb7479049083155, type: 3}
     - {fileID: -1632482846730829949, guid: 31ba3fe5c3ec15b4fa460e8623ed77da, type: 3}
+    - {fileID: 5854124670240133631, guid: 06baa63ba7bc5c148af1afdc4afc1049, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -43,7 +44,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 3
     - Name: 
       Entry: 7
       Data: 
@@ -80,6 +81,27 @@ MonoBehaviour:
     - Name: Window
       Entry: 10
       Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 7
+      Data: Features.StaticData.Windows.WindowInstantiateData, Assembly-CSharp
+    - Name: ID
+      Entry: 3
+      Data: 3
+    - Name: Window
+      Entry: 10
+      Data: 2
     - Name: 
       Entry: 8
       Data: 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Features.Ship.Scripts.Displaying
+namespace Features.UI.Windows.HUD.Scripts
 {
   public interface IValueChangeable
   {

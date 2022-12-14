@@ -1,6 +1,6 @@
 ﻿using System;
 using Features.Reloader;
-using Features.Ship.Scripts.Displaying;
+using Features.UI.Windows.HUD.Scripts;
 
 namespace Features.Ship.Scripts.Shield
 {

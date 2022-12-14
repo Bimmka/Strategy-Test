@@ -1,6 +1,8 @@
 ﻿using Features.GameStates;
 using Features.GameStates.States;
 using Features.Services.Cleanup;
+using Features.Services.UI.Factory;
+using Features.Services.UI.Windows;
 using Features.Ship.Data.InputBindings;
 using Features.Ship.Data.Settings;
 using Features.Ship.Scripts.Base;
@@ -16,13 +18,15 @@ namespace Features.Level.Scripts.Flow
     private readonly ShipSpawner shipSpawner;
     private readonly ICleanupService cleanupService;
     private readonly IGameStateMachine gameStateMachine;
+    private readonly IWindowsService windowsService;
     private SpawnedPlayersContainer playersContainer;
 
-    public LevelFlow(ShipSpawner shipSpawner, ICleanupService cleanupService, IGameStateMachine gameStateMachine)
+    public LevelFlow(ShipSpawner shipSpawner, ICleanupService cleanupService, IGameStateMachine gameStateMachine, IWindowsService windowsService)
     {
       this.shipSpawner = shipSpawner;
       this.cleanupService = cleanupService;
       this.gameStateMachine = gameStateMachine;
+      this.windowsService = windowsService;
       cleanupService.Register(this);
     }
 
@@ -34,15 +38,18 @@ namespace Features.Level.Scripts.Flow
 
     public void StartGame()
     {
+      CreateHUD();
       SpawnPlayers();
     }
 
     public void EndGame()
     {
-      DisablePlayers();
-      cleanupService.CleanupElements();
+      
       gameStateMachine.Enter<GameEndState>();
     }
+
+    private void CreateHUD() => 
+      windowsService.Open(WindowId.HUD);
 
     private void SpawnPlayers()
     {
@@ -54,12 +61,6 @@ namespace Features.Level.Scripts.Flow
       firstPlayer.Disabled += EndGame;
       secondPlayer.Disabled += EndGame;
       playersContainer = new SpawnedPlayersContainer(firstPlayer, secondPlayer);
-    }
-
-    private void DisablePlayers()
-    {
-      playersContainer.FirstPlayer.Disable();
-      playersContainer.SecondPlayer.Disable();
     }
   }
 }

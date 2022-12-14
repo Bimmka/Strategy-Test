@@ -4,13 +4,14 @@ using Features.Bullet.Scripts.Spawner;
 using Features.Services.Assets;
 using Features.Services.Cleanup;
 using Features.Services.StaticData;
+using Features.Services.UI.Factory;
+using Features.Services.UI.Windows;
 using Features.Ship.Data.InputBindings;
 using Features.Ship.Data.Settings;
 using Features.Ship.Scripts.Base;
 using Features.Ship.Scripts.Characteristics;
 using Features.Ship.Scripts.Damage;
 using Features.Ship.Scripts.Disable;
-using Features.Ship.Scripts.Displaying;
 using Features.Ship.Scripts.Health;
 using Features.Ship.Scripts.Input.Scripts;
 using Features.Ship.Scripts.Modules.Data;
@@ -25,6 +26,7 @@ using Features.Ship.Scripts.Weapons.Container;
 using Features.Ship.Scripts.Weapons.Data;
 using Features.Ship.Scripts.Weapons.Elements;
 using Features.Ship.Scripts.Weapons.Marker;
+using Features.UI.Windows.HUD.Scripts;
 using UnityEngine;
 
 namespace Features.Ship.Scripts.Factory
@@ -35,13 +37,16 @@ namespace Features.Ship.Scripts.Factory
     private readonly IStaticDataService staticDataService;
     private readonly BulletSpawner bulletSpawner;
     private readonly ICleanupService cleanupService;
+    private readonly IWindowsService windowsService;
 
-    public ShipFactory(IAssetProvider assetProvider, IStaticDataService staticDataService, BulletSpawner bulletSpawner, ICleanupService cleanupService)
+    public ShipFactory(IAssetProvider assetProvider, IStaticDataService staticDataService, BulletSpawner bulletSpawner, ICleanupService cleanupService, 
+      IWindowsService windowsService)
     {
       this.assetProvider = assetProvider;
       this.staticDataService = staticDataService;
       this.bulletSpawner = bulletSpawner;
       this.cleanupService = cleanupService;
+      this.windowsService = windowsService;
     }
 
     public ShipPresenter Create(ShipType shipType, WeaponType[] weaponTypes, ModuleType[] moduleTypes, PlayerType playerType,
@@ -59,7 +64,7 @@ namespace Features.Ship.Scripts.Factory
       ShipWeapons weapons = Weapons(characteristics.Weapons, playerType, view.FirePointMarkers, bulletSpawner);
       ShipHealth health = ShipHealth(characteristics.Health);
       ShipShield shield = ShipShield(characteristics.Shield);
-      ConstructShipCharacteristicsDisplayer(spawnedShip.GetComponent<ShipCharacteristicsDisplayer>(), health, shield, cleanupService);
+      ConstructShipCharacteristicsDisplayer((UIHUD) windowsService.Window(WindowId.HUD), health, shield, playerType);
       ShipDamageReceiver damageReceiver = ShipDamageReceiver(health, shield);
       ShipDestroyer destroyer = ShipDestroyer(spawnedShip);
       ShipModel model = ShipModel(health, shield, damageReceiver, input, move, weapons, modules, characteristics, destroyer, playerType);
@@ -175,8 +180,13 @@ namespace Features.Ship.Scripts.Factory
     private ShipDestroyer ShipDestroyer(ShipPresenter shipPresenter) => 
       new ShipDestroyer(shipPresenter);
     
-    private void ConstructShipCharacteristicsDisplayer(ShipCharacteristicsDisplayer displayer, ShipHealth health, ShipShield shield, ICleanupService cleanupService) => 
-      displayer.Construct(shield, health, cleanupService);
+    private void ConstructShipCharacteristicsDisplayer(UIHUD displayer, ShipHealth health, ShipShield shield, PlayerType playerType)
+    {
+      if (playerType == PlayerType.First)
+        displayer.ConstructFirstPlayerDisplayer(shield, health);
+      else
+        displayer.ConstructSecondPlayerDisplayer(shield, health);
+    }
 
     private ShipDamageReceiver ShipDamageReceiver(ShipHealth health, ShipShield shield) => 
       new ShipDamageReceiver(health, shield);
