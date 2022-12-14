@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Features.Bullet.Scripts.Spawner;
 using Features.Services.Assets;
+using Features.Services.Cleanup;
 using Features.Services.StaticData;
 using Features.Ship.Data.InputBindings;
 using Features.Ship.Data.Settings;
@@ -9,6 +10,7 @@ using Features.Ship.Scripts.Base;
 using Features.Ship.Scripts.Characteristics;
 using Features.Ship.Scripts.Damage;
 using Features.Ship.Scripts.Disable;
+using Features.Ship.Scripts.Displaying;
 using Features.Ship.Scripts.Health;
 using Features.Ship.Scripts.Input.Scripts;
 using Features.Ship.Scripts.Modules.Data;
@@ -32,12 +34,14 @@ namespace Features.Ship.Scripts.Factory
     private readonly IAssetProvider assetProvider;
     private readonly IStaticDataService staticDataService;
     private readonly BulletSpawner bulletSpawner;
+    private readonly ICleanupService cleanupService;
 
-    public ShipFactory(IAssetProvider assetProvider, IStaticDataService staticDataService, BulletSpawner bulletSpawner)
+    public ShipFactory(IAssetProvider assetProvider, IStaticDataService staticDataService, BulletSpawner bulletSpawner, ICleanupService cleanupService)
     {
       this.assetProvider = assetProvider;
       this.staticDataService = staticDataService;
       this.bulletSpawner = bulletSpawner;
+      this.cleanupService = cleanupService;
     }
 
     public ShipPresenter Create(ShipType shipType, WeaponType[] weaponTypes, ModuleType[] moduleTypes, PlayerType playerType,
@@ -49,12 +53,13 @@ namespace Features.Ship.Scripts.Factory
       ShipView view = View(shipSettings.View, spawnedShip.transform);
       ShipInput input = Input(playerType);
       ShipRotate rotate = Rotate(spawnedShip.transform, shipSettings.RotateSettings);
-      ShipMove move = Move(spawnedShip.transform, shipSettings.MoveSettings, rotate, spawnedShip.GetComponent<CharacterController>());
+      ShipMove move = Move(spawnedShip.transform, shipSettings.MoveSettings, rotate, spawnedShip.GetComponent<Rigidbody>());
       ShipModules modules = Modules(characteristics.Modules);
       characteristics = UpdateCharacteristicsByModules(characteristics, modules);
       ShipWeapons weapons = Weapons(characteristics.Weapons, playerType, view.FirePointMarkers, bulletSpawner);
       ShipHealth health = ShipHealth(characteristics.Health);
       ShipShield shield = ShipShield(characteristics.Shield);
+      ConstructShipCharacteristicsDisplayer(spawnedShip.GetComponent<ShipCharacteristicsDisplayer>(), health, shield, cleanupService);
       ShipDamageReceiver damageReceiver = ShipDamageReceiver(health, shield);
       ShipDestroyer destroyer = ShipDestroyer(spawnedShip);
       ShipModel model = ShipModel(health, shield, damageReceiver, input, move, weapons, modules, characteristics, destroyer, playerType);
@@ -99,8 +104,8 @@ namespace Features.Ship.Scripts.Factory
     private ShipRotate Rotate(Transform ship, ShipRotateSettings rotateSettings) => 
       new ShipRotate(ship, rotateSettings);
 
-    private ShipMove Move(Transform ship, ShipMoveSettings moveSettings, ShipRotate rotate, CharacterController shipController) => 
-      new ShipMove(ship, moveSettings, rotate, shipController);
+    private ShipMove Move(Transform ship, ShipMoveSettings moveSettings, ShipRotate rotate, Rigidbody shipBody) => 
+      new ShipMove(ship, moveSettings, rotate, shipBody);
 
     private ShipModules Modules(List<ModuleCharacteristics> moduleTypes)
     {
@@ -169,6 +174,9 @@ namespace Features.Ship.Scripts.Factory
 
     private ShipDestroyer ShipDestroyer(ShipPresenter shipPresenter) => 
       new ShipDestroyer(shipPresenter);
+    
+    private void ConstructShipCharacteristicsDisplayer(ShipCharacteristicsDisplayer displayer, ShipHealth health, ShipShield shield, ICleanupService cleanupService) => 
+      displayer.Construct(shield, health, cleanupService);
 
     private ShipDamageReceiver ShipDamageReceiver(ShipHealth health, ShipShield shield) => 
       new ShipDamageReceiver(health, shield);
