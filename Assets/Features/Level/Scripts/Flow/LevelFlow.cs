@@ -41,8 +41,9 @@ namespace Features.Level.Scripts.Flow
       SpawnPlayers();
     }
 
-    public void EndGame()
+    private void EndGame()
     {
+      StopPlayers();
       gameStateMachine.Enter<GameEndState>();
     }
 
@@ -56,6 +57,12 @@ namespace Features.Level.Scripts.Flow
       firstPlayer.Disabled += EndGame;
       secondPlayer.Disabled += EndGame;
       playersContainer = new SpawnedPlayersContainer(firstPlayer, secondPlayer);
+    }
+
+    private void StopPlayers()
+    {
+      playersContainer.FirstPlayer.Stop();
+      playersContainer.SecondPlayer.Stop();
     }
   }
 }

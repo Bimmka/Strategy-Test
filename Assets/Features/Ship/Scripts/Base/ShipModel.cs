@@ -1,4 +1,5 @@
-﻿using Features.Ship.Data.InputBindings;
+﻿using Features.Services.Cleanup;
+using Features.Ship.Data.InputBindings;
 using Features.Ship.Scripts.Characteristics;
 using Features.Ship.Scripts.Damage;
 using Features.Ship.Scripts.Disable;
@@ -12,7 +13,7 @@ using UnityEngine;
 
 namespace Features.Ship.Scripts.Base
 {
-  public class ShipModel
+  public class ShipModel : ICleanup
   {
     private readonly ShipHealth health;
     private readonly ShipShield shield;
@@ -27,7 +28,8 @@ namespace Features.Ship.Scripts.Base
     public PlayerType PlayerType { get; private set; }
 
     public ShipModel(ShipHealth health, ShipShield shield, ShipDamageReceiver damageReceiver, ShipInput input, 
-      ShipMove move, ShipWeapons weapons, ShipModules modules, ShipCharacteristics characteristics, ShipDestroyer shipDestroyer, PlayerType playerType)
+      ShipMove move, ShipWeapons weapons, ShipModules modules, ShipCharacteristics characteristics, ShipDestroyer shipDestroyer, PlayerType playerType,
+      ICleanupService cleanupService)
     {
       this.health = health;
       this.shield = shield;
@@ -40,6 +42,7 @@ namespace Features.Ship.Scripts.Base
       this.characteristics = characteristics;
       this.shipDestroyer = shipDestroyer;
       PlayerType = playerType;
+      cleanupService.Register(this);
     }
 
     public void Cleanup()

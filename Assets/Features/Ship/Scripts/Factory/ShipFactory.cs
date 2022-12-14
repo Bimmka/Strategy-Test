@@ -67,7 +67,8 @@ namespace Features.Ship.Scripts.Factory
       ConstructShipCharacteristicsDisplayer((UIHUD) windowsService.Window(WindowId.HUD), health, shield, playerType);
       ShipDamageReceiver damageReceiver = ShipDamageReceiver(health, shield);
       ShipDestroyer destroyer = ShipDestroyer(spawnedShip);
-      ShipModel model = ShipModel(health, shield, damageReceiver, input, move, weapons, modules, characteristics, destroyer, playerType);
+      ShipModel model = ShipModel(health, shield, damageReceiver, input, move, weapons, modules, characteristics, destroyer, playerType,
+        cleanupService);
       spawnedShip.Construct(view, model);
       return spawnedShip;
     }
@@ -191,8 +192,9 @@ namespace Features.Ship.Scripts.Factory
     private ShipDamageReceiver ShipDamageReceiver(ShipHealth health, ShipShield shield) => 
       new ShipDamageReceiver(health, shield);
 
-    private ShipModel ShipModel(ShipHealth health, ShipShield shield, ShipDamageReceiver damageReceiver, ShipInput input, ShipMove move,
-      ShipWeapons weapons, ShipModules modules, ShipCharacteristics characteristics, ShipDestroyer destroyer, PlayerType playerType) => 
-      new ShipModel(health, shield, damageReceiver, input, move, weapons, modules, characteristics, destroyer, playerType);
+    private ShipModel ShipModel(ShipHealth health, ShipShield shield, ShipDamageReceiver damageReceiver,
+      ShipInput input, ShipMove move, ShipWeapons weapons, ShipModules modules, ShipCharacteristics characteristics, ShipDestroyer destroyer,
+      PlayerType playerType, ICleanupService cleanupService) => 
+      new ShipModel(health, shield, damageReceiver, input, move, weapons, modules, characteristics, destroyer, playerType, cleanupService);
   }
 }

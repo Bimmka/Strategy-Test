@@ -1,4 +1,5 @@
 ﻿using System;
+using Features.Services.Cleanup;
 using Features.Ship.Data.InputBindings;
 using UnityEngine;
 
@@ -22,9 +23,6 @@ namespace Features.Ship.Scripts.Base
       isEnable = true;
     }
 
-    private void OnDestroy() => 
-      model.Cleanup();
-
     private void Update()
     {
       if (isEnable)
@@ -39,9 +37,11 @@ namespace Features.Ship.Scripts.Base
 
     public void Disable()
     {
-      isEnable = false;
       view.Disable();
       Disabled?.Invoke();
     }
+
+    public void Stop() => 
+      isEnable = false;
   }
 }

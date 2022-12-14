@@ -15,4 +15,4 @@ MonoBehaviour:
   Type: 0
   Damage: 5
   ShootCooldown: 3
-  View: {fileID: 0}
+  UIName: Minigun
