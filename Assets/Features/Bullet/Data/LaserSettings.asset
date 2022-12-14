@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: LaserSettings
   m_EditorClassIdentifier: 
   Type: 2
-  MoveSpeed: 12
+  MoveSpeed: 23
   BulletView: {fileID: 4080032359232480667, guid: 34ec2ac14cab96e45bd2ba7c20f52700, type: 3}

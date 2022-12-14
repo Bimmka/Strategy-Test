@@ -82,3 +82,4 @@ MonoBehaviour:
   bulletSpawnParent: {fileID: 0}
   bulletsContainer: {fileID: 11400000, guid: 205f7194aa6b27c4d903fbd1098deb51, type: 2}
   levelFlowObserver: {fileID: 1761535759449660664, guid: fd1e0c51eac6ae441a9d229637be2b81, type: 3}
+  levelSettings: {fileID: 11400000, guid: d25a4a8b1ceccbd43b072bf13ac68423, type: 2}

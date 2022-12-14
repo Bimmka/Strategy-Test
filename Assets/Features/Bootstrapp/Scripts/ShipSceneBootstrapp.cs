@@ -1,6 +1,7 @@
 ﻿using Features.Bullet.Data;
 using Features.Bullet.Scripts.Factory;
 using Features.Bullet.Scripts.Spawner;
+using Features.Level.Data;
 using Features.Level.Scripts.Flow;
 using Features.Level.Scripts.Observer;
 using Features.Services.Cleanup;
@@ -21,6 +22,7 @@ namespace Features.Bootstrapp.Scripts
     [SerializeField] private Transform bulletSpawnParent;
     [SerializeField] private BulletsContainer bulletsContainer;
     [SerializeField] private LevelFlowObserver levelFlowObserver;
+    [SerializeField] private LevelSettings levelSettings;
 
     public override void Start()
     {
@@ -57,7 +59,7 @@ namespace Features.Bootstrapp.Scripts
       Container.Bind<ICleanupService>().To<CleanupService>().FromNew().AsSingle();
 
     private void BindLevelFlow() => 
-      Container.Bind<LevelFlow>().ToSelf().FromNew().AsSingle();
+      Container.Bind<LevelFlow>().ToSelf().FromNew().AsSingle().WithArguments(levelSettings);
     
     private void BindLevelFlowObserver() => 
       Container.Bind<LevelFlowObserver>().ToSelf().FromComponentInNewPrefab(levelFlowObserver).AsSingle();

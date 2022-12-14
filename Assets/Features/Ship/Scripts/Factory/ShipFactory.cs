@@ -49,11 +49,11 @@ namespace Features.Ship.Scripts.Factory
       this.windowsService = windowsService;
     }
 
-    public ShipPresenter Create(ShipType shipType, WeaponType[] weaponTypes, ModuleType[] moduleTypes, PlayerType playerType,
-      Transform parent, ShipPresenter prefab, Vector3 at)
+    public ShipPresenter Create(ShipType shipType, WeaponType[] weaponTypes, ModuleType[] moduleTypes,
+      PlayerType playerType, Transform parent, ShipPresenter prefab, Vector3 at, Quaternion rotation)
     {
       ShipSettings shipSettings = staticDataService.ForShip(shipType);
-      ShipPresenter spawnedShip = Presenter(prefab, at, parent);
+      ShipPresenter spawnedShip = Presenter(prefab, at, rotation, parent);
       ShipCharacteristics characteristics = ShipCharacteristics(shipSettings, weaponTypes, moduleTypes);
       ShipView view = View(shipSettings.View, spawnedShip.transform);
       ShipInput input = Input(playerType);
@@ -73,8 +73,8 @@ namespace Features.Ship.Scripts.Factory
       return spawnedShip;
     }
 
-    private ShipPresenter Presenter(ShipPresenter prefab, Vector3 at, Transform parent) => 
-      assetProvider.Instantiate(prefab, at, Quaternion.identity, parent);
+    private ShipPresenter Presenter(ShipPresenter prefab, Vector3 at, Quaternion quaternion, Transform parent) => 
+      assetProvider.Instantiate(prefab, at, quaternion, parent);
 
     private ShipCharacteristics ShipCharacteristics(ShipSettings settings, WeaponType[] weaponTypes, ModuleType[] moduleTypes)
     {

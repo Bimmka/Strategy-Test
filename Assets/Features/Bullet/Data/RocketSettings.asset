@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: RocketSettings
   m_EditorClassIdentifier: 
   Type: 1
-  MoveSpeed: 11
+  MoveSpeed: 22
   BulletView: {fileID: 792153699737470470, guid: 85ba2eabea7f262449a12e4e5bd5a114, type: 3}

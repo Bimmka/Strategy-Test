@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6190bf6d925e49e9b08cc8d9a79afd71, type: 3}
   m_Name: ShipMoveSettings
   m_EditorClassIdentifier: 
-  MoveSpeed: 5
+  MoveSpeed: 8

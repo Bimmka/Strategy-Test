@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: BulletSettings
   m_EditorClassIdentifier: 
   Type: 0
-  MoveSpeed: 9
+  MoveSpeed: 22
   BulletView: {fileID: 7160308429975420812, guid: 4bf3179b1f2616f4d9b48b82b382523d, type: 3}
