@@ -1,16 +1,17 @@
 ﻿using System;
 using Features.Reloader;
+using Features.Ship.Scripts.Displaying;
 
 namespace Features.Ship.Scripts.Shield
 {
-  public class ShipShield
+  public class ShipShield : IValueChangeable
   {
     private readonly float restoreValuePerSecond;
     private readonly ItemReloader reloader;
     private readonly float maxValue;
-    public float CurrentShield { get; private set; }
+    public float CurrentValue { get; private set; }
 
-    public event Action<float> Changed;
+    public event Action<float, float> Changed;
 
     public ShipShield(float startCount, float restoreValuePerSecond, float restoreTime)
     {
@@ -18,7 +19,7 @@ namespace Features.Ship.Scripts.Shield
       reloader = new ItemReloader(restoreTime);
       reloader.TimeOut += OnReloadTimeOut;
       maxValue = startCount;
-      CurrentShield = startCount;
+      CurrentValue = startCount;
     }
 
     public void Cleanup() => 
@@ -26,26 +27,26 @@ namespace Features.Ship.Scripts.Shield
 
     public void Tick(float deltaTime)
     {
-      if (CurrentShield != maxValue)
+      if (CurrentValue != maxValue)
         reloader.Tick(deltaTime);
     }
 
     public void DecreaseShield(float count)
     {
-      CurrentShield -= count;
-      if (CurrentShield <= 0) 
-        CurrentShield = 0;
+      CurrentValue -= count;
+      if (CurrentValue <= 0) 
+        CurrentValue = 0;
 
       NotifyAboutChange();
     }
 
     private void OnReloadTimeOut()
     {
-      CurrentShield += restoreValuePerSecond;
+      CurrentValue += restoreValuePerSecond;
 
-      if (CurrentShield >= maxValue)
+      if (CurrentValue >= maxValue)
       {
-        CurrentShield = maxValue;
+        CurrentValue = maxValue;
         reloader.ResetTime();
       }
       
@@ -53,6 +54,6 @@ namespace Features.Ship.Scripts.Shield
     }
 
     private void NotifyAboutChange() => 
-      Changed?.Invoke(CurrentShield);
+      Changed?.Invoke(CurrentValue, maxValue);
   }
 }

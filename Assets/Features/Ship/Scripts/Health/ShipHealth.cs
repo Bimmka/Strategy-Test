@@ -1,25 +1,28 @@
 ﻿using System;
+using Features.Ship.Scripts.Displaying;
 
 namespace Features.Ship.Scripts.Health
 {
-  public class ShipHealth
+  public class ShipHealth : IValueChangeable
   {
-    public float CurrentHealth { get; private set; }
+    private readonly float maxValue; 
+    public float CurrentValue { get; private set; }
 
-    public event Action<float> Changed; 
+    public event Action<float, float> Changed; 
     public event Action Dead; 
 
     public ShipHealth(float startCount)
     {
-      CurrentHealth = startCount;
+      maxValue = startCount;
+      CurrentValue = startCount;
     }
 
     public void DecreaseHealth(float count)
     {
-      CurrentHealth -= count;
-      if (CurrentHealth <= 0)
+      CurrentValue -= count;
+      if (CurrentValue <= 0)
       {
-        CurrentHealth = 0;
+        CurrentValue = 0;
         NotifyAboutDead();
       }
       
@@ -28,7 +31,7 @@ namespace Features.Ship.Scripts.Health
 
     private void NotifyAboutChange()
     {
-      Changed?.Invoke(CurrentHealth);
+      Changed?.Invoke(CurrentValue, maxValue);
     }
 
     private void NotifyAboutDead() => 
