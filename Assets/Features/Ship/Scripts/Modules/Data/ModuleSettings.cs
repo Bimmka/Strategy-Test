@@ -7,6 +7,7 @@ namespace Features.Ship.Scripts.Modules.Data
   {
     public ModuleType Type;
     public float Value;
-    public GameObject View;
+    
+    public string UIName;
   }
 }

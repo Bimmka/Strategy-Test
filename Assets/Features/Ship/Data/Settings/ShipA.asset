@@ -16,8 +16,10 @@ MonoBehaviour:
   MaxHealth: 100
   MaxShield: 80
   ShieldRegenPerSecond: 1
+  ShieldRegenTime: 1
   WeaponsCount: 2
   ModulesCount: 2
   MoveSettings: {fileID: 11400000, guid: ddae3a7271e5d9443974fae30f1e57d4, type: 2}
   RotateSettings: {fileID: 11400000, guid: 3b16043fdb576e94dbadbc9d20b5a53f, type: 2}
   View: {fileID: 5969391947364904581, guid: 63c3a4165138909428459ab36ad0410b, type: 3}
+  UIName: Big Ship

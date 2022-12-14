@@ -1,4 +1,5 @@
-﻿using Features.Ship.Data.InputBindings;
+﻿using Features.Services.ShipParts;
+using Features.Ship.Data.InputBindings;
 using Features.Ship.Data.Settings;
 using Features.Ship.Scripts.Base;
 using Features.Ship.Scripts.Factory;
@@ -21,7 +22,7 @@ namespace Features.Ship.Scripts.Spawn
       this.shipSpawnParent = shipSpawnParent;
     }
 
-    public ShipPresenter Create(ShipType shipType, WeaponType[] weapons, ModuleType[] modules, PlayerType playerType, Vector3 at) => 
-      factory.Create(shipType, weapons, modules, playerType, shipSpawnParent, shipPresenterPrefab, at);
+    public ShipPresenter Create(ShipChosenParts chosenParts, PlayerType playerType, Vector3 at) => 
+      factory.Create(chosenParts.ShipType, chosenParts.WeaponTypes, chosenParts.ModuleTypes, playerType, shipSpawnParent, shipPresenterPrefab, at);
   }
 }

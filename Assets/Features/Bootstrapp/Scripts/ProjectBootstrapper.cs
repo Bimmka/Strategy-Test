@@ -5,6 +5,7 @@ using Features.GameStates.Observer.Scripts;
 using Features.GameStates.States;
 using Features.SceneLoading.Scripts;
 using Features.Services.Assets;
+using Features.Services.ShipParts;
 using Features.Services.StaticData;
 using Features.Services.UI.Windows;
 using Features.Ship.Data.InputBindings;
@@ -45,6 +46,7 @@ namespace Features.Bootstrapp.Scripts
       BindGameStateMachine();
       BindGameStates();
       BindGameStatesObserver();
+      BindShipChosenParts();
     }
 
     private void ResolveGameStates()
@@ -90,5 +92,8 @@ namespace Features.Bootstrapp.Scripts
 
     private void BindGameStatesObserver() => 
       Container.Bind<GameStatesObserver>().ToSelf().FromComponentInNewPrefab(gameStatesObserver).AsSingle();
+
+    private void BindShipChosenParts() => 
+      Container.Bind<IShipChosenPartsService>().To<ShipChosenPartsService>().FromNew().AsSingle();
   }
 }

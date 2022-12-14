@@ -15,4 +15,4 @@ MonoBehaviour:
   Type: 1
   Damage: 4
   ShootCooldown: 2
-  View: {fileID: 0}
+  UIName: Rocket

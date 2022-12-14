@@ -18,6 +18,8 @@ namespace Features.Ship.Data.Settings
     public ShipMoveSettings MoveSettings;
     public ShipRotateSettings RotateSettings;
     public ShipView View;
+
+    public string UIName;
   }
 
   public enum ShipType

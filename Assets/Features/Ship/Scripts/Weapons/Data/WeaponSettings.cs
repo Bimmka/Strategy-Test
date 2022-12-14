@@ -8,5 +8,7 @@ namespace Features.Ship.Scripts.Weapons.Data
     public WeaponType Type;
     public int Damage;
     public float ShootCooldown;
+
+    public string UIName;
   }
 }
