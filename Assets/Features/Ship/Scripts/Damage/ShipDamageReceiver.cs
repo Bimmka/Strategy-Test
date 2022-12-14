@@ -16,9 +16,9 @@ namespace Features.Ship.Scripts.Damage
 
     public void TakeDamage(float count)
     {
-      if (shield.CurrentShield > 0)
+      if (shield.CurrentValue > 0)
       {
-        float shieldCount = shield.CurrentShield;
+        float shieldCount = shield.CurrentValue;
         shield.DecreaseShield(count);
         count -= shieldCount;
       }

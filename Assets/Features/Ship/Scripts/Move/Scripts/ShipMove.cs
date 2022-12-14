@@ -10,14 +10,14 @@ namespace Features.Ship.Scripts.Move.Scripts
     private readonly Transform ship;
     private readonly ShipMoveSettings moveData;
     private readonly ShipRotate rotate;
-    private readonly CharacterController shipController;
+    private readonly Rigidbody shipBody;
 
-    public ShipMove(Transform ship, ShipMoveSettings moveData, ShipRotate rotate, CharacterController shipController)
+    public ShipMove(Transform ship, ShipMoveSettings moveData, ShipRotate rotate, Rigidbody shipBody)
     {
       this.ship = ship;
       this.moveData = moveData;
       this.rotate = rotate;
-      this.shipController = shipController;
+      this.shipBody = shipBody;
     }
 
     public void Move(Vector2 direction, float deltaTime)
@@ -26,7 +26,7 @@ namespace Features.Ship.Scripts.Move.Scripts
       if (ship.right.IsEqualMoveDirection(moveDirection) == false)
         rotate.Rotate(direction);
 
-      shipController.Move(moveDirection * (moveData.MoveSpeed * deltaTime));
+      shipBody.MovePosition(shipBody.position + moveDirection * (moveData.MoveSpeed * deltaTime));
     }
 
     private Vector3 MoveDirection(Vector2 inputDirection)
