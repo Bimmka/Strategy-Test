@@ -4,9 +4,6 @@
   {
     None = 0, 
     MainMenu = 1,
-    LevelMenu = 2,
-    StealWindow = 3,
-    HUD = 4,
-    LevelPrepare = 5,
+    LevelEnd = 2,
   }
 }

@@ -1,4 +1,6 @@
-﻿using Features.Services.Cleanup;
+﻿using Features.GameStates;
+using Features.GameStates.States;
+using Features.Services.Cleanup;
 using Features.Ship.Data.InputBindings;
 using Features.Ship.Data.Settings;
 using Features.Ship.Scripts.Base;
@@ -9,16 +11,25 @@ using UnityEngine;
 
 namespace Features.Level.Scripts.Flow
 {
-  public class LevelFlow
+  public class LevelFlow : ICleanup
   {
     private readonly ShipSpawner shipSpawner;
     private readonly ICleanupService cleanupService;
+    private readonly IGameStateMachine gameStateMachine;
     private SpawnedPlayersContainer playersContainer;
 
-    public LevelFlow(ShipSpawner shipSpawner, ICleanupService cleanupService)
+    public LevelFlow(ShipSpawner shipSpawner, ICleanupService cleanupService, IGameStateMachine gameStateMachine)
     {
       this.shipSpawner = shipSpawner;
       this.cleanupService = cleanupService;
+      this.gameStateMachine = gameStateMachine;
+      cleanupService.Register(this);
+    }
+
+    public void Cleanup()
+    {
+      playersContainer.FirstPlayer.Disabled -= EndGame;
+      playersContainer.SecondPlayer.Disabled -= EndGame;
     }
 
     public void StartGame()
@@ -28,9 +39,9 @@ namespace Features.Level.Scripts.Flow
 
     public void EndGame()
     {
-      playersContainer.FirstPlayer.Disabled -= EndGame;
-      playersContainer.SecondPlayer.Disabled -= EndGame;
-      Debug.Log("End Game");
+      DisablePlayers();
+      cleanupService.CleanupElements();
+      gameStateMachine.Enter<GameEndState>();
     }
 
     private void SpawnPlayers()

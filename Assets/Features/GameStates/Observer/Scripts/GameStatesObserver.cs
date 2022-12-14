@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Features.GameStates.States;
 using UnityEngine;
 using Zenject;
 
-namespace Features.GameStates.Observer
+namespace Features.GameStates.Observer.Scripts
 {
   public class GameStatesObserver : MonoBehaviour
   {
@@ -18,5 +18,8 @@ namespace Features.GameStates.Observer
     {
       DontDestroyOnLoad(this);
     }
+
+    public void StartGame() => 
+      gameStateMachine.Enter<MainMenuState>();
   }
 }

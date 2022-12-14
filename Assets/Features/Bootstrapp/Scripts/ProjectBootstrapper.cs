@@ -1,5 +1,8 @@
 ﻿using Features.CustomCoroutine;
+using Features.GameStates;
 using Features.GameStates.Observer;
+using Features.GameStates.Observer.Scripts;
+using Features.GameStates.States;
 using Features.SceneLoading.Scripts;
 using Features.Services.Assets;
 using Features.Services.StaticData;
@@ -27,7 +30,8 @@ namespace Features.Bootstrapp.Scripts
     public override void Start()
     {
       base.Start();
-      Container.Resolve<GameStatesObserver>();
+      ResolveGameStates();
+      ResolveGameStatesObserver();
     }
 
     public override void InstallBindings()
@@ -38,8 +42,21 @@ namespace Features.Bootstrapp.Scripts
       BindSceneLoading();
       BindLoadingCurtain();
       BindWindowsService();
+      BindGameStateMachine();
+      BindGameStates();
       BindGameStatesObserver();
     }
+
+    private void ResolveGameStates()
+    {
+      Container.Resolve<GameEndState>();
+      Container.Resolve<GameLoadState>();
+      Container.Resolve<GameLoopState>();
+      Container.Resolve<MainMenuState>();
+    }
+
+    private void ResolveGameStatesObserver() => 
+      Container.Resolve<GameStatesObserver>().StartGame();
 
     private void BindAssetProvider() => 
       Container.Bind<IAssetProvider>().To<AssetProvider>().FromNew().AsSingle();
@@ -53,12 +70,23 @@ namespace Features.Bootstrapp.Scripts
 
     private void BindSceneLoading() => 
       Container.Bind<ISceneLoader>().To<SceneLoader>().FromNew().AsSingle();
-    
+
     private void BindLoadingCurtain() => 
       Container.Bind<LoadingCurtain>().ToSelf().FromComponentInNewPrefab(loadingCurtain).AsSingle();
-    
+
     private void BindWindowsService() => 
       Container.Bind<IWindowsService>().To<WindowsService>().FromNew().AsSingle();
+
+    private void BindGameStateMachine() => 
+      Container.Bind<IGameStateMachine>().To<GameStateMachine>().FromNew().AsSingle();
+
+    private void BindGameStates()
+    {
+      Container.Bind<GameEndState>().ToSelf().FromNew().AsSingle();
+      Container.Bind<GameLoadState>().ToSelf().FromNew().AsSingle();
+      Container.Bind<GameLoopState>().ToSelf().FromNew().AsSingle();
+      Container.Bind<MainMenuState>().ToSelf().FromNew().AsSingle();
+    }
 
     private void BindGameStatesObserver() => 
       Container.Bind<GameStatesObserver>().ToSelf().FromComponentInNewPrefab(gameStatesObserver).AsSingle();
